@@ -26,16 +26,19 @@ data_file = "/sandbox/data.{}.dat".format(args.dataset)
 copyfile(data_file, 'data.dat')
 
 out_rappdw = '/sandbox/time.rappdw.out'
+out_rappdw_noopenmp = '/sandbox/time.rappdw.noopenmp.out'
 out_10x = '/sandbox/time.10XDev.out'
 out_lvdmaaten = '/sandbox/time.lvdmaaten.out'
 
-run_test('/sandbox/tsne.rappdw/tsne/bh_sne_src', out_rappdw)
-run_test('/sandbox/tsne.10XDev/tsne/bh_sne_src', out_10x)
+run_test('/sandbox/tsne.rappdw/', out_rappdw)
+run_test('/sandbox/tsne.rappdw.noopenmp/', out_rappdw_noopenmp)
+run_test('/sandbox/tsne.10XDev/', out_10x)
 run_test('/sandbox/tsne.lvdmaaten', out_lvdmaaten)
 
 print('==========================================================')
 print('\n\n')
 print_file(out_rappdw, 'rappdw')
+print_file(out_rappdw_noopenmp, 'rappdw.noopenmp')
 print_file(out_10x, '10XDev')
 print_file(out_lvdmaaten, 'lvdmaaten')
 
