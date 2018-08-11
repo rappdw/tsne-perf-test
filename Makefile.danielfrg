@@ -1,0 +1,18 @@
+CXX = g++
+CFLAGS = -g -O3
+LFLAGS = -g -lcblas
+
+all: bh_tsne
+
+bh_tsne: tsne.o quadtree.o
+	$(CXX) $(LFLAGS) tsne.o quadtree.o -o bh_tsne
+
+quadtree.o: quadtree.cpp quadtree.h
+	$(CXX) $(CFLAGS) -c quadtree.cpp
+
+tsne.o: tsne.cpp tsne.h quadtree.h vptree.h
+	$(CXX) $(CFLAGS) -c tsne.cpp
+
+clean:
+	rm -Rf *.o bh_tsne bh_tsne_3d
+
