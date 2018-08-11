@@ -7,7 +7,7 @@ between different implementations of BH-tSNE.
 The versions that are compared are:
 * [lvdmaaten](https://github.com/lvdmaaten/bhtsne.git) (e53ec46d9...)
 * [10XDev](https://github.com/10XDev/tsne.git) (1858079da...)
-* [danielfrg](https://github.com/danielfrg/tsn.git) (v0.1.8)
+* [danielfrg](https://github.com/danielfrg/tsn.git) (v0.1.8) (This is the library on pypi)
 * [rappdw](https://github.com/rappdw/tsne.git) (d7447950...)
 
 To run the test:
