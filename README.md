@@ -14,22 +14,22 @@ To run the test:
 1) Build to docker image: `docker build -t tsne-perf .`
 2) Run the image, specifying which data set to use, e.g. `docker run -it tsne-perf iris`
 
-# On an EC2 M5.xlarge instance
+# On an EC2 m5.12xlarge instance
 ## 2500 Instance MNIST Data 
 
 | Repo      | Wall Time (s) | Max Memory (kb) | Cumulative CPU % |
 | --------- | ------------- | --------------- | ---------------- |
-| lvdmaaten | 16.42         | 14700           | 99               |
-| danielfrg | 7.83          | 34028           | 99               |
-| 10XDev    | 7.61          | 14544           | 99               |
-| rappdw    | 4.68          | 15388           | 371              |
+| lvdmaaten | 16.04         | 14516           | 99               |
+| danielfrg | 7.80          | 34096           | 99               |
+| 10XDev    | 7.52          | 14612           | 99               |
+| rappdw    | 7.62          | 11580           | 4347             |
 
 ## 70,000 Instance MNIST Data 
 
 | Repo      | Wall Time (s) | Max Memory (kb) | Cumulative CPU % |
 | --------- | ------------- | --------------- | ---------------- |
-| lvdmaaten | 6475.31       | 1426732         | 99               |
-| 10XDev    | 3886.93       | 1426704         | 99               |
-| danielfrg | 2153.05       | 1426356         | 99               |
-| rappdw    | 1428.57       | 1430140         | 379              |
+| lvdmaaten | 6064.91       | 1426784         | 99               |
+| 10XDev    | 3753.59       | 1426692         | 99               |
+| danielfrg | 2100.58       | 1426288         | 99               |
+| rappdw    | 329.98        | 1436172         | 3588             |
 
