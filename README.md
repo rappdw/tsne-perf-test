@@ -1,5 +1,4 @@
-Performance Comparision of Several TSNE Implementations
--------------------------------------------------------
+# Performance Comparision of Several TSNE Implementations
 
 This docker image allows for head to head performance comparisions
 between different implementations of BH-tSNE.
@@ -14,8 +13,13 @@ To run the test:
 1) Build to docker image: `docker build -t tsne-perf .`
 2) Run the image, specifying which data set to use, e.g. `docker run -it tsne-perf iris`
 
-# On an EC2 m5.12xlarge instance
-## 2500 Instance MNIST Data 
+## vs. scikit-learn impl
+Because of implementation differences I don't include scikit-learn in the performance test. Because of the implementation
+chosen in scikit-learn, it performs significantly slower than any of these implementations (approximately
+twice as long as the lvdmaaten implementation).
+
+## On an EC2 m5.12xlarge instance
+### 2500 Instance MNIST Data 
 
 | Repo      | Wall Time (s) | Max Memory (kb) | Cumulative CPU % |
 | --------- | ------------- | --------------- | ---------------- |
@@ -24,7 +28,7 @@ To run the test:
 | 10XDev    | 7.52          | 14612           | 99               |
 | rappdw    | 7.62          | 11580           | 4347             |
 
-## 70,000 Instance MNIST Data 
+### 70,000 Instance MNIST Data 
 
 | Repo      | Wall Time (s) | Max Memory (kb) | Cumulative CPU % |
 | --------- | ------------- | --------------- | ---------------- |
