@@ -15,15 +15,15 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /sandbox
 
 # setup data
-RUN wget -q https://s3-us-west-2.amazonaws.com/resero/datasets/tsne-perf-test/data.2500.mnist.dat \
-    && wget -q https://s3-us-west-2.amazonaws.com/resero/datasets/tsne-perf-test/data.full.mnist.dat \
-    && wget -q https://s3-us-west-2.amazonaws.com/resero/datasets/tsne-perf-test/data.iris.dat
+RUN wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.2500.mnist.dat \
+    && wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.full.mnist.dat \
+    && wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.iris.dat
 
 # get and extract rappdw version
-RUN wget -q -O rappdw.zip https://github.com/rappdw/tsne/archive/d7447950c0dd17a7bb9cf6c16b959718c51b0ad6.zip \
-    && unzip -q rappdw.zip tsne-d7447950c0dd17a7bb9cf6c16b959718c51b0ad6/tsne/bh_sne_src/* -d tsne.rappdw \
-    && mv tsne.rappdw/tsne-d7447950c0dd17a7bb9cf6c16b959718c51b0ad6/tsne/bh_sne_src/* tsne.rappdw \
-    && rm -rf tsne.rappdw/tsne-d7447950c0dd17a7bb9cf6c16b959718c51b0ad6 \
+RUN wget -q -O rappdw.zip https://github.com/rappdw/tsne/archive/v0.1.9.zip \
+    && unzip -q rappdw.zip tsne-0.1.9/tsne/bh_sne_src/* -d tsne.rappdw \
+    && mv tsne.rappdw/tsne-0.1.9/tsne/bh_sne_src/* tsne.rappdw \
+    && rm -rf tsne.rappdw/tsne-0.1.9 \
     && rm rappdw.zip \
     && cp -r tsne.rappdw tsne.rappdw.noopenmp # create a non openmp version
 
@@ -35,10 +35,10 @@ RUN wget -q -O 10XDev.zip https://github.com/10XDev/tsne/archive/1858079dac9682a
     && rm 10XDev.zip
 
 # get and extract lvdmaaten
-RUN wget -q -O lvdmaaten.zip https://github.com/lvdmaaten/bhtsne/archive/e53ec46d9e34da21911ee7e4d0431d81f07f3f0e.zip \
+RUN wget -q -O lvdmaaten.zip https://github.com/lvdmaaten/bhtsne/archive/ff73828c476ba079fb53a50ad74f52ca01457d16.zip \
     && unzip -q lvdmaaten.zip -d tsne.lvdmaaten \
-    && mv tsne.lvdmaaten/bhtsne-e53ec46d9e34da21911ee7e4d0431d81f07f3f0e/* tsne.lvdmaaten \
-    && rm -rf tsne.lvdmaaten/bhtsne-e53ec46d9e34da21911ee7e4d0431d81f07f3f0e \
+    && mv tsne.lvdmaaten/bhtsne-ff73828c476ba079fb53a50ad74f52ca01457d16/* tsne.lvdmaaten \
+    && rm -rf tsne.lvdmaaten/bhtsne-ff73828c476ba079fb53a50ad74f52ca01457d16 \
     && rm lvdmaaten.zip
 
 # get and extract danielfrg
@@ -66,7 +66,20 @@ ADD main.cpp /sandbox/tsne.danielfrg/
 ADD Makefile.danielfrg /sandbox/tsne.danielfrg/Makefile
 RUN cd /sandbox/tsne.danielfrg; cat main.cpp >>tsne.cpp; make clean all
 
+RUN conda update -n base conda \
+    && conda create -n py35 python=3.5 numpy cython --no-default-packages \
+    && conda create -n py36 python=3.6 numpy cython --no-default-packages  \
+    && conda create -n py37 python=3.7 numpy cython --no-default-packages \
+    && conda create -n rappdw python=3.6 numpy cython --no-default-packages \
+    && conda create -n 10XDev python=3.6 numpy cython --no-default-packages \
+    && conda create -n pypi python=3.6 numpy cython --no-default-packages
+
+RUN ["/bin/bash", "-c", "source activate rappdw; pip install git+git://github.com/rappdw/tsne.git@b0a6bb6d0f4d5636b023acfe3ed39c9294884656#egg=tsne-mp"]
+RUN ["/bin/bash", "-c", "source activate 10XDev; pip install git+git://github.com/10XDev/tsne.git#egg=tsne"]
+RUN ["/bin/bash", "-c", "source activate pypi; pip install tsne"]
+
 ADD tsne-perf-test.py .
+ADD python-tsne-perf-test.py .
 
 ENTRYPOINT ["/sandbox/tsne-perf-test.py"]
 CMD ["--help"]

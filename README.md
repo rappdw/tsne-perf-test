@@ -25,8 +25,8 @@ twice as long as the lvdmaaten implementation).
 | --------- | ------------- | --------------- | ---------------- |
 | lvdmaaten | 16.04         | 14516           | 99               |
 | danielfrg | 7.80          | 34096           | 99               |
-| 10XDev    | 7.52          | 14612           | 99               |
-| rappdw    | 7.62          | 11580           | 4347             |
+| 10XDev    | 7.69          | 14612           | 99               |
+| rappdw    | 3.15          | 13020           | 3948             |
 
 ### 70,000 Instance MNIST Data 
 

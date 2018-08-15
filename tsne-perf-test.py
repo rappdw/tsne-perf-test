@@ -5,11 +5,15 @@ import subprocess
 import shlex
 
 
-def run_test(tsne_dir, outfile):
+def run_test(venv, tsne_dir, outfile, python_test_output):
     if not subprocess.call(shlex.split('cd {}; make clean all'.format(tsne_dir)), shell=True):
         tsne_command = '/usr/bin/time -f "%e %M %P" -o {} {}/bh_tsne'.format(outfile, tsne_dir)
         print("running command: {}".format(tsne_command))
         subprocess.call(shlex.split(tsne_command), shell=False)
+        if python_test_output:
+            python_command  = 'source activate {}; cd /sandbox; /usr/bin/time -f "%e %M %P" -o {} ./python-tsne-perf-test.py /sandbox/data.dat'.format(venv, python_test_output)
+            print("running command: {}".format(python_command))
+            subprocess.run(python_command, shell=True, executable='/bin/bash')
 
 
 def print_file(file, test_name):
@@ -28,18 +32,19 @@ if __name__ == '__main__':
     copyfile(data_file, 'data.dat')
 
     comparisons = [
-        ('rappdw', '/sandbox/tsne.rappdw/', '/sandbox/time.rappdw.out'),
-        ('rappdw.noopenmp', '/sandbox/tsne.rappdw.noopenmp/', '/sandbox/time.rappdw.noopenmp.out'),
-        ('danielfrg', '/sandbox/tsne.danielfrg/', '/sandbox/time.danielfrg.out'),
-        ('10XDev', '/sandbox/tsne.10XDev/', '/sandbox/time.10XDev.out'),
-        ('lvdmaaten', '/sandbox/tsne.lvdmaaten', '/sandbox/time.lvdmaaten.out'),
+        ('rappdw', '/sandbox/tsne.rappdw/', '/sandbox/time.rappdw.out', '/sandbox/py.time.rappdw.out'),
+        ('rappdw.noopenmp', '/sandbox/tsne.rappdw.noopenmp/', '/sandbox/time.rappdw.noopenmp.out', None),
+        ('pypi', '/sandbox/tsne.danielfrg/', '/sandbox/time.danielfrg.out', '/sandbox/py.time.danielfrg.out'),
+        ('10XDev', '/sandbox/tsne.10XDev/', '/sandbox/time.10XDev.out', '/sandbox/py.time.10XDev.out'),
+        ('lvdmaaten', '/sandbox/tsne.lvdmaaten', '/sandbox/time.lvdmaaten.out', None),
     ]
 
     for comparison in comparisons:
-        run_test(comparison[1], comparison[2])
+        run_test(comparison[0], comparison[1], comparison[2], comparison[3])
 
     print('==========================================================')
     print('\n\n')
     for comparison in comparisons:
         print_file(comparison[2], comparison[0])
-
+        if comparison[3]:
+            print_file(comparison[3], "python-{}".format(comparison[0]))
