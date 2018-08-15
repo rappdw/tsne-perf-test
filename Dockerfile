@@ -81,6 +81,10 @@ RUN ["/bin/bash", "-c", "source activate pypi; pip install tsne"]
 ADD tsne-perf-test.py .
 ADD python-tsne-perf-test.py .
 
+# If you want to throw in a newly built wheel, do it here
+#ADD tsne_mp*.whl .
+#RUN ["/bin/bash", "-c", "source activate py36; pip install /sandbox/tsne*.whl"]
+
 ENTRYPOINT ["/sandbox/tsne-perf-test.py"]
 CMD ["--help"]
 
