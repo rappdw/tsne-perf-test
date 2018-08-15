@@ -85,6 +85,8 @@ ADD python-tsne-perf-test.py .
 #ADD tsne_mp*.whl .
 #RUN ["/bin/bash", "-c", "source activate py36; pip install /sandbox/tsne*.whl"]
 
+ENV PYTHONUNBUFFERED=TRUE
+
 ENTRYPOINT ["/sandbox/tsne-perf-test.py"]
 CMD ["--help"]
 
