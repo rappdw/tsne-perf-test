@@ -7,7 +7,7 @@ The versions that are compared are:
 * [lvdmaaten](https://github.com/lvdmaaten/bhtsne.git) (e53ec46d9...)
 * [10XDev](https://github.com/10XDev/tsne.git) (1858079da...)
 * [danielfrg](https://github.com/danielfrg/tsn.git) (v0.1.8) (This is the library on pypi)
-* [rappdw](https://github.com/rappdw/tsne.git) (d7447950...)
+* [rappdw](https://github.com/rappdw/tsne.git) (v0.1.9) (This is now available on pypi as tsne-mp)
 
 To run the test:
 1) Build to docker image: `docker build -t tsne-perf .`
