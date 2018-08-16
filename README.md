@@ -15,9 +15,8 @@ To run the test:
 **NOTE: do not run -d, for some reason, this slows things down significatnly. if you need to detach, use ctl-p, ctrl-q**
 
 ## vs. scikit-learn impl
-Because of implementation differences I don't include scikit-learn in the performance test. Because of the implementation
-chosen in scikit-learn, it performs significantly slower than any of these implementations (approximately
-twice as long as the lvdmaaten implementation).
+Because of implementation differences I don't include scikit-learn in the performance test. scikit-learn performs significantly slower than any of these implementations (approximately
+twice as long as the lvdmaaten implementation with informal testing).
 
 ## On an EC2 m5.12xlarge instance
 ### 2500 Instance MNIST Data 
