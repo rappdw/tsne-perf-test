@@ -16,7 +16,7 @@ if __name__ == '__main__':
     (N, D, theta, perplexity, no_dims, max_iter) = struct.unpack("@iiddii", data[:32])
     X = np.reshape(np.fromstring(data[32:], np.float64), (N, D))
     after_load_start = time.time()
-    X_2d = bh_sne(X, perplexity=perplexity, theta=theta, max_iter=200, stop_lying_iter=50, mom_switch_iter=50)
+    X_2d = bh_sne(X, perplexity=perplexity, theta=theta)
     end = time.time()
 
 

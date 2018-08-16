@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import datetime
-from shutil import copyfile
+import os
 import subprocess
 import shlex
 
@@ -35,23 +35,26 @@ if __name__ == '__main__':
 
     data_file = "/sandbox/data.{}.dat".format(args.dataset)
 
-    copyfile(data_file, 'data.dat')
+    os.rename(data_file, '/sandbox/data.dat')
 
     comparisons = [
         # the 'py3x' environments are for inclusion of specific wheels that are not part of the
         # standard comparison set. Uncomment the following line to include them in the test
         # ('rappdw', None, None, '/sandbox/py.time.rappdw.out'),
         # ('py36', None, None, '/sandbox/py.time.rappdw.out'),
+        # ('py36', None, None, '/sandbox/py.time.rappdw.out'),
         ('rappdw', '/sandbox/tsne.rappdw/', '/sandbox/time.rappdw.out', '/sandbox/py.time.rappdw.out'),
-        ('rappdw.noopenmp', '/sandbox/tsne.rappdw.noopenmp/', '/sandbox/time.rappdw.noopenmp.out', None),
-        ('pypi', '/sandbox/tsne.danielfrg/', '/sandbox/time.danielfrg.out', '/sandbox/py.time.danielfrg.out'),
         ('10XDev', '/sandbox/tsne.10XDev/', '/sandbox/time.10XDev.out', '/sandbox/py.time.10XDev.out'),
+        ('pypi', '/sandbox/tsne.danielfrg/', '/sandbox/time.danielfrg.out', '/sandbox/py.time.danielfrg.out'),
+        # ('rappdw.noopenmp', '/sandbox/tsne.rappdw.noopenmp/', '/sandbox/time.rappdw.noopenmp.out', None),
         ('lvdmaaten', '/sandbox/tsne.lvdmaaten', '/sandbox/time.lvdmaaten.out', None),
     ]
 
     for comparison in comparisons:
         run_test(comparison[0], comparison[1], comparison[2], comparison[3])
         print('==========================================================')
+
+    os.rename('/sandbox/data.dat', data_file)
 
     print('\n\n')
     for comparison in comparisons:

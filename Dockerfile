@@ -82,8 +82,8 @@ ADD tsne-perf-test.py .
 ADD python-tsne-perf-test.py .
 
 # If you want to throw in a newly built wheel, do it here
-#ADD tsne_mp*.whl .
-#RUN ["/bin/bash", "-c", "source activate py36; pip install /sandbox/tsne*.whl"]
+#ADD "tsne_mp-0.1.9+5.gc45737d-cp36-cp36m-manylinux1_x86_64.whl" .
+#RUN ["/bin/bash", "-c", "source activate py36; pip install /sandbox/tsne_mp-0.1.9+5.gc45737d-cp36-cp36m-manylinux1_x86_64.whl"]
 
 ENV PYTHONUNBUFFERED=TRUE
 

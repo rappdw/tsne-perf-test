@@ -12,6 +12,7 @@ The versions that are compared are:
 To run the test:
 1) Build to docker image: `docker build -t tsne-perf .`
 2) Run the image, specifying which data set to use, e.g. `docker run -it tsne-perf iris`
+**NOTE: do not run -d, for some reason, this slows things down significatnly. if you need to detach, use ctl-p, ctrl-q**
 
 ## vs. scikit-learn impl
 Because of implementation differences I don't include scikit-learn in the performance test. Because of the implementation
