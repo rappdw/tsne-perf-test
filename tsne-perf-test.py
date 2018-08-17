@@ -29,7 +29,7 @@ def print_file(file, test_name):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("dataset", choices=['full.mnist', '2500.mnist', 'iris'], help="dataset to use",
+    parser.add_argument("dataset", choices=['cifar', 'full.mnist', '2500.mnist', 'iris'], help="dataset to use",
                         default='full.mnist')
     args = parser.parse_args()
 
@@ -40,13 +40,12 @@ if __name__ == '__main__':
     comparisons = [
         # the 'py3x' environments are for inclusion of specific wheels that are not part of the
         # standard comparison set. Uncomment the following line to include them in the test
-        # ('rappdw', None, None, '/sandbox/py.time.rappdw.out'),
-        # ('py36', None, None, '/sandbox/py.time.rappdw.out'),
-        # ('py36', None, None, '/sandbox/py.time.rappdw.out'),
-        ('rappdw', '/sandbox/tsne.rappdw/', '/sandbox/time.rappdw.out', '/sandbox/py.time.rappdw.out'),
+        # ('resero-labs', None, None, '/sandbox/py.time.resero-labs.out'),
+        # ('py36', None, None, '/sandbox/py.time.resero-labs.out'),
+        ('resero-labs', '/sandbox/tsne.resero-labs/', '/sandbox/time.resero-labs.out', '/sandbox/py.time.resero-labs.out'),
         ('10XDev', '/sandbox/tsne.10XDev/', '/sandbox/time.10XDev.out', '/sandbox/py.time.10XDev.out'),
         ('pypi', '/sandbox/tsne.danielfrg/', '/sandbox/time.danielfrg.out', '/sandbox/py.time.danielfrg.out'),
-        # ('rappdw.noopenmp', '/sandbox/tsne.rappdw.noopenmp/', '/sandbox/time.rappdw.noopenmp.out', None),
+        # ('resero-labs.noopenmp', '/sandbox/tsne.resero-labs.noopenmp/', '/sandbox/time.resero-labs.noopenmp.out', None),
         ('lvdmaaten', '/sandbox/tsne.lvdmaaten', '/sandbox/time.lvdmaaten.out', None),
     ]
 
