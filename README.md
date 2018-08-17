@@ -7,7 +7,7 @@ The versions that are compared are:
 * [lvdmaaten](https://github.com/lvdmaaten/bhtsne.git) (e53ec46d9...)
 * [10XDev](https://github.com/10XDev/tsne.git) (1858079da...)
 * [danielfrg](https://github.com/danielfrg/tsn.git) (v0.1.8) (This is the library on pypi)
-* [rappdw](https://github.com/rappdw/tsne.git) (d7447950...)
+* [rappdw](https://github.com/rappdw/tsne.git) (v0.1.9) (This is now available on pypi as tsne-mp)
 
 To run the test:
 1) Build to docker image: `docker build -t tsne-perf .`
@@ -15,9 +15,8 @@ To run the test:
 **NOTE: do not run -d, for some reason, this slows things down significatnly. if you need to detach, use ctl-p, ctrl-q**
 
 ## vs. scikit-learn impl
-Because of implementation differences I don't include scikit-learn in the performance test. Because of the implementation
-chosen in scikit-learn, it performs significantly slower than any of these implementations (approximately
-twice as long as the lvdmaaten implementation).
+Because of implementation differences I don't include scikit-learn in the performance test. scikit-learn performs significantly slower than any of these implementations (approximately
+twice as long as the lvdmaaten implementation with informal testing).
 
 ## On an EC2 m5.12xlarge instance
 ### 2500 Instance MNIST Data 
