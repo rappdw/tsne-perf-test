@@ -15,10 +15,14 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /sandbox
 
 # setup data
-RUN wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.2500.mnist.dat \
-    && wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.full.mnist.dat \
-    && wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.iris.dat \
-    && wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.cifar.dat
+RUN wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.2500.mnist.dat.gz; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/labels.2500.mnist.npy; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.full.mnist.dat.gz; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/labels.full.mnist.npy; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.iris.dat; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.cifar.dat.gz; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/labels.cifar.npy; \
+    gunzip *.gz
 
 # get and extract resero-labs version
 RUN wget -q -O resero-labs.zip https://github.com/resero-labs/tsne/archive/v0.1.12.zip \
@@ -75,12 +79,16 @@ RUN conda update -n base conda \
     && conda create -n 10XDev python=3.6 numpy cython --no-default-packages \
     && conda create -n pypi python=3.6 numpy cython --no-default-packages
 
-RUN ["/bin/bash", "-c", "source activate resero-labs; pip install tsne-mp"]
-RUN ["/bin/bash", "-c", "source activate 10XDev; pip install git+git://github.com/10XDev/tsne.git#egg=tsne"]
-RUN ["/bin/bash", "-c", "source activate pypi; pip install tsne"]
+RUN mkdir perfutils
+COPY perfutils/* ./perfutils/
+ADD setup.py .
+RUN ["/bin/bash", "-c", "source activate resero-labs; pip install tsne-mp ."]
+RUN ["/bin/bash", "-c", "source activate 10XDev; pip install git+git://github.com/10XDev/tsne.git#egg=tsne ."]
+RUN ["/bin/bash", "-c", "source activate pypi; pip install tsne ."]
 
 ADD docker/cpu/tsne-perf-test.py .
 ADD docker/cpu/python-tsne-perf-test.py .
+ADD docker/cpu/gen-mnist-scatter.py .
 
 # If you want to throw in a newly built wheel, do it here
 #ADD "tsne_mp-0.1.9+5.gc45737d-cp36-cp36m-manylinux1_x86_64.whl" .
