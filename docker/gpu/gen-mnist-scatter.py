@@ -5,8 +5,8 @@ from perfutils.gen_scatter import gen_scatter_plot
 
 
 if __name__ == '__main__':
-    X, y, _, _, _, _ = read_data('data.2500.mnist.dat', label_file='labels.2500.mnist.npy')
+    X, y, _, _, _, _ = read_data('data.full.mnist.dat', label_file='labels.full.mnist.npy')
     t = TSNE(n_components=2)
     X = t.fit_transform(X)
 
-    gen_scatter_plot(X, y, '/data/mnist.2500.png')
+    gen_scatter_plot(X, y, '/data/mnist.full.tsnecuda.png')
