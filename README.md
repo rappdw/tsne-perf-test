@@ -11,9 +11,19 @@ The versions that are compared are:
 * [tsne-cuda](https://github.com/CannyLab/tsne-cuda) 
 
 To run the test:
-1) Build to docker image: `docker build -t tsne-perf .`
-2) Run the image, specifying which data set to use, e.g. `docker run -it tsne-perf iris`
-**NOTE: do not run -d, for some reason, this slows things down significatnly. if you need to detach, use ctl-p, ctrl-q**
+
+* pre-requisites
+  1) python 3.6 or greater
+  2) dockerutils (`pip install dockerutils`)
+  3) setup EC2 instances (M5 and P3 for CPU and GPU testing)
+
+* Build & run
+  1) build tsne-cuda python wheel and libfaiss.so, place them in ./docker/gpu (tsne-cuda is under active development 
+  and getting the correct version of the wheel and libfaiss.so is a bit tricky, see dwr/explorations branch on 
+  [this fork](https://github.com/rappdw/tsne-cuda) of tsne-cuda)
+  2) `build-image all` (builds two docker images, tsne-perf-test-cpu and tsne-perf-test-gpu)
+  3) For CPU test, `run-image cpu -c full.mnist` (or iris, or 2500.mnist or cifar)
+  4) for GPU test, `run-image -g gpu -c full.mnist`
 
 ## vs. scikit-learn impl
 Because of implementation differences I don't include scikit-learn in the performance test. scikit-learn performs significantly slower than any of these implementations (approximately
@@ -53,3 +63,11 @@ twice as long as the lvdmaaten implementation with informal testing).
 
 #### tsne-cuda
 ![tsne-cuda](./mnist.full.tsnecuda.png "tsne-cuda tsne embedding")
+
+## Conclusions
+
+If you have a gpu and you are willing to work with early days code, the tsne-cuda implementation beats all others
+handsdown.
+
+If you don't have a gpu, then use the resero-labs implementation or consider [umap](https://github.com/lmcinnes/umap)
+instead of tsne.
