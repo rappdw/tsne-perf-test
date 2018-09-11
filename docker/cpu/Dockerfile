@@ -15,10 +15,14 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /sandbox
 
 # setup data
-RUN wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.2500.mnist.dat \
-    && wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.full.mnist.dat \
-    && wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.iris.dat \
-    && wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.cifar.dat
+RUN wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.2500.mnist.dat.gz; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/labels.2500.mnist.npy; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.full.mnist.dat.gz; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/labels.full.mnist.npy; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.iris.dat; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/data.cifar.dat.gz; \
+    wget -q https://s3-us-west-2.amazonaws.com/resero2/datasets/tsne-perf-test/labels.cifar.npy; \
+    gunzip *.gz
 
 # get and extract resero-labs version
 RUN wget -q -O resero-labs.zip https://github.com/resero-labs/tsne/archive/v0.1.12.zip \
@@ -51,20 +55,20 @@ RUN wget -q -O danielfrg.zip https://github.com/danielfrg/tsne/archive/0.1.8.zip
 
 #RUN conda install numpy cython
 
-ADD Makefile.resero-labs.openmp /sandbox/tsne.resero-labs/Makefile
+ADD docker/cpu/Makefile.resero-labs.openmp /sandbox/tsne.resero-labs/Makefile
 RUN cd /sandbox/tsne.resero-labs; make clean all
 
-ADD Makefile.resero-labs.noopenmp /sandbox/tsne.resero-labs.noopenmp/Makefile
+ADD docker/cpu/Makefile.resero-labs.noopenmp /sandbox/tsne.resero-labs.noopenmp/Makefile
 RUN cd /sandbox/tsne.resero-labs.noopenmp; make clean all
 
-ADD Makefile.10XDev /sandbox/tsne.10XDev/Makefile
+ADD docker/cpu/Makefile.10XDev /sandbox/tsne.10XDev/Makefile
 RUN cd /sandbox/tsne.10XDev; make clean all
 
-ADD Makefile.lvdmaaten.variants /sandbox/tsne.lvdmaaten/Makefile
+ADD docker/cpu/Makefile.lvdmaaten.variants /sandbox/tsne.lvdmaaten/Makefile
 RUN cd /sandbox/tsne.lvdmaaten; make clean all
 
-ADD main.cpp /sandbox/tsne.danielfrg/
-ADD Makefile.danielfrg /sandbox/tsne.danielfrg/Makefile
+ADD docker/cpu/main.cpp /sandbox/tsne.danielfrg/
+ADD docker/cpu/Makefile.danielfrg /sandbox/tsne.danielfrg/Makefile
 RUN cd /sandbox/tsne.danielfrg; cat main.cpp >>tsne.cpp; make clean all
 
 RUN conda update -n base conda \
@@ -75,12 +79,16 @@ RUN conda update -n base conda \
     && conda create -n 10XDev python=3.6 numpy cython --no-default-packages \
     && conda create -n pypi python=3.6 numpy cython --no-default-packages
 
-RUN ["/bin/bash", "-c", "source activate resero-labs; pip install tsne-mp"]
-RUN ["/bin/bash", "-c", "source activate 10XDev; pip install git+git://github.com/10XDev/tsne.git#egg=tsne"]
-RUN ["/bin/bash", "-c", "source activate pypi; pip install tsne"]
+RUN mkdir perfutils
+COPY perfutils/* ./perfutils/
+ADD setup.py .
+RUN ["/bin/bash", "-c", "source activate resero-labs; pip install tsne-mp ."]
+RUN ["/bin/bash", "-c", "source activate 10XDev; pip install git+git://github.com/10XDev/tsne.git#egg=tsne ."]
+RUN ["/bin/bash", "-c", "source activate pypi; pip install tsne ."]
 
-ADD tsne-perf-test.py .
-ADD python-tsne-perf-test.py .
+ADD docker/cpu/tsne-perf-test.py .
+ADD docker/cpu/python-tsne-perf-test.py .
+ADD docker/cpu/gen-mnist-scatter.py .
 
 # If you want to throw in a newly built wheel, do it here
 #ADD "tsne_mp-0.1.9+5.gc45737d-cp36-cp36m-manylinux1_x86_64.whl" .
