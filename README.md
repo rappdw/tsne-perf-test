@@ -8,7 +8,7 @@ The versions that are compared are:
 * [10XDev](https://github.com/10XDev/tsne.git) (1858079da...)
 * [danielfrg](https://github.com/danielfrg/tsn.git) (v0.1.8) (This is the library on pypi)
 * [resero-labs](https://github.com/rappdw/tsne.git) (v0.1.9) (This is now available on pypi as tsne-mp)
-* [tsne-cuda](https://github.com/CannyLab/tsne-cuda) 
+* [tsne-cuda](https://github.com/CannyLab/tsne-cuda) (This is available on pypi as tsnecuda)
 
 To run the test:
 
