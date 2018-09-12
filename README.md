@@ -1,4 +1,4 @@
-# Performance Comparision of A Number of Dimension Reduction Libraries
+# Performance Comparison of A Number of Dimension Reduction Libraries
 
 There are a number of alternatives to choose from when you need to 
 [reduce dimensions of a large data set](https://www.youtube.com/watch?v=YPJQydzTLwQ) (for
