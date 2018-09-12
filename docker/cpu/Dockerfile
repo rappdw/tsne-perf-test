@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
         git \
         build-essential \
         libatlas-base-dev \
+        fftw-dev \
         time \
         vim \
         wget \
@@ -78,6 +79,7 @@ RUN conda update -n base conda \
     && conda create -n resero-labs python=3.6 numpy cython --no-default-packages \
     && conda create -n 10XDev python=3.6 numpy cython --no-default-packages \
     && conda create -n pypi python=3.6 numpy cython --no-default-packages \
+    && conda create -n fit-sne python=3.6 numpy cython --no-default-packages \
     && conda create -n umap python=3.7 numpy scipy numba scikit-learn cython --no-default-packages
 
 RUN mkdir perfutils
@@ -86,6 +88,13 @@ ADD setup.py .
 RUN ["/bin/bash", "-c", "source activate resero-labs; pip install tsne-mp ."]
 RUN ["/bin/bash", "-c", "source activate 10XDev; pip install git+git://github.com/10XDev/tsne.git#egg=tsne ."]
 RUN ["/bin/bash", "-c", "source activate pypi; pip install tsne ."]
+
+RUN apt-get update && apt-get install -y \
+        libfftw3-dev \
+    && apt-get clean && \
+    rm -rf /var/tmp/* /tmp/* /var/lib/apt/lists/*
+
+RUN ["/bin/bash", "-c", "source activate fit-sne; pip install fitsne ."]
 RUN ["/bin/bash", "-c", "source activate umap; pip install umap-learn ."]
 
 ADD docker/cpu/tsne-perf-test.py .

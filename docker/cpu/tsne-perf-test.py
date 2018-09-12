@@ -43,10 +43,11 @@ if __name__ == '__main__':
         # ('resero-labs', None, None, '/sandbox/py.time.resero-labs.out', 'python-tsne-perf-test.py'),
         # ('py36', None, None, '/sandbox/py.time.resero-labs.out', 'python-tsne-perf-test.py'),
         ('umap', None, None, '/sandbox/py.time.umap.out', 'python-umap-perf-test.py'),
+        ('fit-sne', None, None, '/sandbox/py.time.fit.out', 'python-fit-perf-test.py'),
         # ('resero-labs', '/sandbox/tsne.resero-labs/', '/sandbox/time.resero-labs.out', '/sandbox/py.time.resero-labs.out', 'python-tsne-perf-test.py'),
         # ('10XDev', '/sandbox/tsne.10XDev/', '/sandbox/time.10XDev.out', '/sandbox/py.time.10XDev.out', 'python-tsne-perf-test.py'),
         # ('pypi', '/sandbox/tsne.danielfrg/', '/sandbox/time.danielfrg.out', '/sandbox/py.time.danielfrg.out', 'python-tsne-perf-test.py'),
-        # # ('resero-labs.noopenmp', '/sandbox/tsne.resero-labs.noopenmp/', '/sandbox/time.resero-labs.noopenmp.out', None, None),
+        # ('resero-labs.noopenmp', '/sandbox/tsne.resero-labs.noopenmp/', '/sandbox/time.resero-labs.noopenmp.out', None, None),
         # ('lvdmaaten', '/sandbox/tsne.lvdmaaten', '/sandbox/time.lvdmaaten.out', None, None),
     ]
 

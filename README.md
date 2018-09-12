@@ -14,6 +14,7 @@ The libraries included in the comparision are:
 * [danielfrg](https://github.com/danielfrg/tsn.git) - The "standard" python version available from pypi and conda
 * [resero-labs](https://github.com/rappdw/tsne.git) - A fork of 10XDev that uses openmp to take advantage of multiple cores (available on pypi as tsne-mp)
 * [tsne-cuda](https://github.com/CannyLab/tsne-cuda) - A CUDA implementation still in early development but very promising
+* [Fit-SNE](https://github.com/KlugerLab/FIt-SNE) - FFT Implementation of tsne
 * [umap](https://github.com/lmcinnes/umap) - A python/numba implementation of UMAP
 
 To run the test:
@@ -27,9 +28,10 @@ To run the test:
   1) build tsne-cuda python wheel and libfaiss.so, place them in ./docker/gpu (tsne-cuda is under active development 
   and getting the correct version of the wheel and libfaiss.so is a bit tricky, see dwr/explorations branch on 
   [this fork](https://github.com/rappdw/tsne-cuda) of tsne-cuda)
-  2) `build-image all` (builds two docker images, tsne-perf-test-cpu and tsne-perf-test-gpu)
-  3) For CPU test, `run-image cpu -c full.mnist` (or iris, or 2500.mnist or cifar)
-  4) for GPU test, `run-image -g gpu -c full.mnist`
+  2) uncomment the comparisons you'd like to run (in tsne-perf-test.py in the docker/cpu and docker/gpu directories)
+  3) `build-image all` (builds two docker images, tsne-perf-test-cpu and tsne-perf-test-gpu)
+  4) For CPU test, `run-image cpu -c full.mnist` (or iris, or 2500.mnist or cifar)
+  5) for GPU test, `run-image -g gpu -c full.mnist`
 
 ## Other Implementations to Consider 
 ### scikit-learn
@@ -52,6 +54,7 @@ to read/write/convert that file format).
 
 | Repo        | Wall Time (s) | Max Memory (kb) | Cumulative CPU % |
 | ----------- | ------------- | --------------- | ---------------- |
+| fit-sne     | 25.22         | 108808          | 124              |
 | lvdmaaten   | 16.04         | 14516           | 99               |
 | umap        | 11.80         | 285512          | 169              |
 | danielfrg   | 7.80          | 34096           | 99               |
@@ -66,6 +69,7 @@ to read/write/convert that file format).
 | 10XDev      | 3753.59       | 1426692         | 99               |
 | danielfrg   | 2100.58       | 1426288         | 99               |
 | resero-labs | 329.98        | 1436172         | 3588             |
+| fit-sne     | 125.05        | 1599288         | 596              |
 | umap        | 102.73        | 2127828         | 243              |
 
 ### On an EC2 p3.2xlarge instance
@@ -87,10 +91,14 @@ to read/write/convert that file format).
 #### umap
 ![umap](./mnist.full.umap.png "umap embedding")
 
+#### Fit-SNE
+![fit-sne](./mnist.full.fitsne.png "Fit-SNE embedding")
+
 ## Conclusions
 
 If you have a gpu and you are willing to work with early days code, the tsne-cuda implementation beats all others
 handsdown from a performance perspective. From limited test samples, it lags a bit qualitatively, but is likely sufficient 
 for most purposes.
 
-If you don't have a gpu or if you have concerns about the qualitative results, then use either umap or tsne-mp.
+If you don't have a gpu, use Fit-SNE, tsne-mp or umap depending on your dataset size, and your concerns surrounding 
+qualitative results.
