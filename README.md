@@ -38,11 +38,11 @@ significantly slower than any of these implementations (approximately twice as l
 with informal testing).
 
 ### Multicore-TSNE
-We initially looked at including this in the evaluation, but the qualitative results we poor in our judgement.
+We initially looked at including this in the evaluation, but the qualitative results were poor in our judgement.
 
 ## Results
 Using the docker images built we ran a number of tests on m5 and p3 EC2 instances recording the elapsed wall clock time,
-the amount of memory usage and the cumulative CPU utilization observed during the execution of the test. We are using
+the amount of memory used and the cumulative CPU utilization observed during the execution of the test. We are using
 standard datasets (iris, mnist, cifar) readily available, but converted to the lvdmaaten 
 [`.dat` file format](https://lvdmaaten.github.io/tsne/User_guide.pdf)) (there are utilities available in this repo
 to read/write/convert that file format).
