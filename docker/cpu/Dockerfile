@@ -77,7 +77,8 @@ RUN conda update -n base conda \
     && conda create -n py37 python=3.7 numpy cython --no-default-packages \
     && conda create -n resero-labs python=3.6 numpy cython --no-default-packages \
     && conda create -n 10XDev python=3.6 numpy cython --no-default-packages \
-    && conda create -n pypi python=3.6 numpy cython --no-default-packages
+    && conda create -n pypi python=3.6 numpy cython --no-default-packages \
+    && conda create -n umap python=3.7 numpy scipy numba scikit-learn cython --no-default-packages
 
 RUN mkdir perfutils
 COPY perfutils/* ./perfutils/
@@ -85,10 +86,11 @@ ADD setup.py .
 RUN ["/bin/bash", "-c", "source activate resero-labs; pip install tsne-mp ."]
 RUN ["/bin/bash", "-c", "source activate 10XDev; pip install git+git://github.com/10XDev/tsne.git#egg=tsne ."]
 RUN ["/bin/bash", "-c", "source activate pypi; pip install tsne ."]
+RUN ["/bin/bash", "-c", "source activate umap; pip install umap-learn ."]
 
 ADD docker/cpu/tsne-perf-test.py .
-ADD docker/cpu/python-tsne-perf-test.py .
-ADD docker/cpu/gen-mnist-scatter.py .
+ADD docker/cpu/python-*-perf-test.py ./
+ADD docker/cpu/gen-mnist-*-scatter.py ./
 
 # If you want to throw in a newly built wheel, do it here
 #ADD "tsne_mp-0.1.9+5.gc45737d-cp36-cp36m-manylinux1_x86_64.whl" .
