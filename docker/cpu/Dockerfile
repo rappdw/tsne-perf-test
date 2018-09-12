@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
         git \
         build-essential \
         libatlas-base-dev \
-        fftw-dev \
+        libfftw3-dev \
         time \
         vim \
         wget \
@@ -88,12 +88,6 @@ ADD setup.py .
 RUN ["/bin/bash", "-c", "source activate resero-labs; pip install tsne-mp ."]
 RUN ["/bin/bash", "-c", "source activate 10XDev; pip install git+git://github.com/10XDev/tsne.git#egg=tsne ."]
 RUN ["/bin/bash", "-c", "source activate pypi; pip install tsne ."]
-
-RUN apt-get update && apt-get install -y \
-        libfftw3-dev \
-    && apt-get clean && \
-    rm -rf /var/tmp/* /tmp/* /var/lib/apt/lists/*
-
 RUN ["/bin/bash", "-c", "source activate fit-sne; pip install fitsne ."]
 RUN ["/bin/bash", "-c", "source activate umap; pip install umap-learn ."]
 
