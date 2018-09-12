@@ -90,7 +90,7 @@ RUN ["/bin/bash", "-c", "source activate umap; pip install umap-learn ."]
 
 ADD docker/cpu/tsne-perf-test.py .
 ADD docker/cpu/python-*-perf-test.py ./
-ADD docker/cpu/gen-mnist-scatter.py .
+ADD docker/cpu/gen-mnist-*-scatter.py ./
 
 # If you want to throw in a newly built wheel, do it here
 #ADD "tsne_mp-0.1.9+5.gc45737d-cp36-cp36m-manylinux1_x86_64.whl" .
