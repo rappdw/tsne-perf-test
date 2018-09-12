@@ -90,6 +90,7 @@ to read/write/convert that file format).
 ## Conclusions
 
 If you have a gpu and you are willing to work with early days code, the tsne-cuda implementation beats all others
-handsdown.
+handsdown from a performance perspective. From limited test samples, it lags a bit qualitatively, but is likely sufficient 
+for most purposes.
 
-If you don't have a gpu, then use either umap or tsne-mp.
+If you don't have a gpu or if you have concerns about the qualitative results, then use either umap or tsne-mp.
