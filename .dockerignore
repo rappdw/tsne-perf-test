@@ -1,2 +1,4 @@
 scripts
 activate
+*.egg-info
+*.png

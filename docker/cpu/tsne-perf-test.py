@@ -6,7 +6,7 @@ import subprocess
 import shlex
 
 
-def run_test(venv, tsne_dir, outfile, python_test_output):
+def run_test(venv, tsne_dir, outfile, python_test_output, python_perf_test):
     if tsne_dir:
         print("Starting test {}: {}".format(venv, datetime.datetime.now()))
         if not subprocess.call(shlex.split('cd {}; make clean all'.format(tsne_dir)), shell=True):
@@ -16,7 +16,7 @@ def run_test(venv, tsne_dir, outfile, python_test_output):
         print("Finished with test {}: {}".format(venv, datetime.datetime.now()))
     if python_test_output:
         print("Starting test py-{}: {}".format(venv, datetime.datetime.now()))
-        python_command  = 'source activate {}; cd /sandbox; /usr/bin/time -f "%e %M %P" -o {} ./python-tsne-perf-test.py /sandbox/data.dat'.format(venv, python_test_output)
+        python_command  = 'source activate {}; cd /sandbox; /usr/bin/time -f "%e %M %P" -o {} ./{} /sandbox/data.dat'.format(venv, python_test_output, python_perf_test)
         print("running command: {}".format(python_command))
         subprocess.run(python_command, shell=True, executable='/bin/bash')
         print("Finished with test py-{}: {}".format(venv, datetime.datetime.now()))
@@ -40,17 +40,18 @@ if __name__ == '__main__':
     comparisons = [
         # the 'py3x' environments are for inclusion of specific wheels that are not part of the
         # standard comparison set. Uncomment the following line to include them in the test
-        # ('resero-labs', None, None, '/sandbox/py.time.resero-labs.out'),
-        # ('py36', None, None, '/sandbox/py.time.resero-labs.out'),
-        ('resero-labs', '/sandbox/tsne.resero-labs/', '/sandbox/time.resero-labs.out', '/sandbox/py.time.resero-labs.out'),
-        ('10XDev', '/sandbox/tsne.10XDev/', '/sandbox/time.10XDev.out', '/sandbox/py.time.10XDev.out'),
-        ('pypi', '/sandbox/tsne.danielfrg/', '/sandbox/time.danielfrg.out', '/sandbox/py.time.danielfrg.out'),
-        # ('resero-labs.noopenmp', '/sandbox/tsne.resero-labs.noopenmp/', '/sandbox/time.resero-labs.noopenmp.out', None),
-        ('lvdmaaten', '/sandbox/tsne.lvdmaaten', '/sandbox/time.lvdmaaten.out', None),
+        # ('resero-labs', None, None, '/sandbox/py.time.resero-labs.out', 'python-tsne-perf-test.py'),
+        # ('py36', None, None, '/sandbox/py.time.resero-labs.out', 'python-tsne-perf-test.py'),
+        ('umap', None, None, '/sandbox/py.time.umap.out', 'python-umap-perf-test.py'),
+        # ('resero-labs', '/sandbox/tsne.resero-labs/', '/sandbox/time.resero-labs.out', '/sandbox/py.time.resero-labs.out', 'python-tsne-perf-test.py'),
+        # ('10XDev', '/sandbox/tsne.10XDev/', '/sandbox/time.10XDev.out', '/sandbox/py.time.10XDev.out', 'python-tsne-perf-test.py'),
+        # ('pypi', '/sandbox/tsne.danielfrg/', '/sandbox/time.danielfrg.out', '/sandbox/py.time.danielfrg.out', 'python-tsne-perf-test.py'),
+        # # ('resero-labs.noopenmp', '/sandbox/tsne.resero-labs.noopenmp/', '/sandbox/time.resero-labs.noopenmp.out', None, None),
+        # ('lvdmaaten', '/sandbox/tsne.lvdmaaten', '/sandbox/time.lvdmaaten.out', None, None),
     ]
 
     for comparison in comparisons:
-        run_test(comparison[0], comparison[1], comparison[2], comparison[3])
+        run_test(*comparison)
         print('==========================================================')
 
     os.rename('/sandbox/data.dat', data_file)
