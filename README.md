@@ -53,7 +53,7 @@ to read/write/convert that file format).
 | Repo        | Wall Time (s) | Max Memory (kb) | Cumulative CPU % |
 | ----------- | ------------- | --------------- | ---------------- |
 | lvdmaaten   | 16.04         | 14516           | 99               |
-| umap        | 11.80         | 285512          | 169%             |
+| umap        | 11.80         | 285512          | 169              |
 | danielfrg   | 7.80          | 34096           | 99               |
 | 10XDev      | 7.69          | 14612           | 99               |
 | resero-labs | 3.15          | 13020           | 3948             |
@@ -66,7 +66,7 @@ to read/write/convert that file format).
 | 10XDev      | 3753.59       | 1426692         | 99               |
 | danielfrg   | 2100.58       | 1426288         | 99               |
 | resero-labs | 329.98        | 1436172         | 3588             |
-| umap        | 102.73        | 2127828         | 243%             |
+| umap        | 102.73        | 2127828         | 243              |
 
 ### On an EC2 p3.2xlarge instance
 
